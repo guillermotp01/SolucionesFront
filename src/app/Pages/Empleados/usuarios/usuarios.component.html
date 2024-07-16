@@ -1,0 +1,113 @@
+<app-navegacion></app-navegacion>
+<div class="container my-5 min-vh-100">
+    <h1 class="text-center my-4">Clientes</h1>
+    <hr>
+    <div class="col-md-9 w-100">
+        <ul class="row p-0">
+            <div *ngIf="clientes.length === 0" class="col-12 text-center mt-4">
+                <i class="bi bi-x-circle" style="color: red; font-size: 60px;"></i>
+                <p class="mt-4">No hay clientes disponibles en este momento.</p>
+            </div>
+            <div *ngFor="let cliente of clientes" class="col-12 col-md-4">
+                <div class="mb-3 card">
+                    <div class="mx-3 card-body">
+                        <h2 class="card-title">{{ cliente.nombre }} - {{cliente.apellido}}</h2>
+                        <hr>
+                        <p class="card-text">
+                            <strong>Correo:</strong>
+                            {{ cliente.correo }}
+                        </p>
+                        <p class="card-text">
+                            <strong>Celular:</strong> 
+                            {{ cliente.telefono }}
+                        </p>
+                        <p class="card-text">
+                            <strong>Dirección:</strong>
+                            {{ cliente.direccion }}
+                        </p>
+                        <p class="card-text">
+                            <strong>Tipo de Documento:</strong> 
+                            {{ cliente.tipoDocumento }}
+                        </p>
+                        <p class="card-text">
+                            <strong>Nro. Documento:</strong> 
+                            {{ cliente.nroDocumento }}
+                        </p>
+                        <p class="card-text">
+                            <strong>Nombre de Usuario:</strong>
+                            {{ cliente.username }}
+                        </p>
+                        <div class="d-flex justify-content-between">
+                            <button class="btn">
+                                <span class="text-white" style="text-decoration: none;" (click)="modalActualizar(cliente)">Editar</span>
+                            </button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </ul>
+    </div>
+</div>
+<app-footer></app-footer>
+
+
+<!-- MODAL PARA GUARDAR Y ACTUALIZAR -->
+<div class="modal" *ngIf="MostrarModalActualizarCliente">
+    <div class="modal-content text">
+        <div class="modal-header">
+            <h2 *ngIf="actualizarModal">Actualizar Usuario</h2>
+            <h2 *ngIf="!actualizarModal">Guardar Usuario</h2>
+        </div>
+        <div class="modal-body">
+            <div class="forms d-flex">
+                <div class="mx-5">
+                    <div class="form-content">
+                        <label for="nombre">Nombre:</label>
+                        <input [(ngModel)]="cliente.nombre" id="nombre" name="nombre" class="form-control" />
+                    </div>
+
+                    <div class="form-content">
+                        <label for="apellido">Apellido:</label>
+                        <input [(ngModel)]="cliente.apellido" id="apellido" name="apellido" class="form-control" />
+                    </div>
+                    
+                    <div class="form-content">
+                        <label for="tipoDocumento">Tipo Documento:</label>
+                        <input [(ngModel)]="cliente.tipoDocumento" id="tipoDocumento" name="tipoDocumento" class="form-control" />
+                    </div>
+
+                    <div class="form-content">
+                        <label for="nroDocumento">Nro. Documento:</label>
+                        <input [(ngModel)]="cliente.nroDocumento" id="nroDocumento" name="nroDocumento" class="form-control" />
+                    </div>
+                </div>
+                <div class="mx-5">
+                    <div class="form-content">
+                        <label for="correo">Correo:</label>
+                        <input [(ngModel)]="cliente.correo" id="correo" name="correo" class="form-control" />
+                    </div>
+
+                    <div class="form-content">
+                        <label for="username">Nombre de Usuario:</label>
+                        <input [(ngModel)]="cliente.username" id="username" name="username" class="form-control"/>
+                    </div>
+                    
+                    <div class="form-content">
+                        <label for="direccion">Dirección:</label>
+                        <input [(ngModel)]="cliente.direccion" id="direccion" name="direccion" class="form-control"/>
+                    </div>
+
+                    <div class="form-content">
+                        <label for="telefono">Celular:</label>
+                        <input [(ngModel)]="cliente.telefono" id="telefono" name="telefono" class="form-control" />
+                    </div>
+                </div>
+            </div>
+            <div class="modal-footer d-flex justify-content-center mt-3">
+                <button class="btn " (click)="cancelar()">Cancelar</button>
+                <button *ngIf="!actualizarModal" class="btn " (click)="guardar()">Guardar</button>
+                <button *ngIf="actualizarModal" class="btn " (click)="actualizar()">Actualizar</button>
+            </div>
+        </div>
+    </div>
+</div>

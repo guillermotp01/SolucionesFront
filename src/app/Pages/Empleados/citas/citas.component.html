@@ -1,0 +1,79 @@
+<app-navegacion></app-navegacion>
+
+<section class="mt-4 min-vh-100 text-center">
+  <div *ngIf="listaCitas.length > 0" class="container my-5">
+    <h1>Citas</h1>
+    <table class="table table-bordered">
+      <thead class="thead-light">
+        <tr>
+          <th scope="col">Nro. Cita</th>
+          <th scope="col">Fecha Registro</th>
+          <th scope="col">Tipo</th>
+          <th scope="col">Formato de Inspección</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr *ngFor="let citas of listaCitas">
+          <td>{{ citas.id }}</td>
+          <td>{{ citas.fechaRegistro | date: 'dd/MM/yyyy' }}</td>
+          <td>{{ citas.tipoCita.nombre }}</td>
+          <td class="text-center">
+            <button class="btn mx-2" (click)="mostrarConfirmacion(citas)">
+              <i class="bi bi-plus-square"></i>
+            </button>
+            <button class="btn mx-2" (click)="mostrarConfirmacion(citas)">
+              <i class="bi bi-journal-text"></i>
+            </button>
+          </td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+
+  <div *ngIf="listaCitas.length === 0" class="text-center d-flex align-items-center justify-content-center">
+    <div class="text-center">
+      <i class="bi bi-bag-x-fill" style="font-size: 60px; color: red;"></i>
+      <h3>No hay Citas registradas</h3>
+    </div>
+  </div>
+</section>
+
+<app-footer></app-footer>
+
+<!-- MODAL PARA FORMATO DE INSPECCION -->
+<div class="modal" *ngIf="mostrarModalFormatoInspeccion">
+  <div class="modal-dialog">
+    <div class="modal-content text">
+      <div class="modal-header">
+        <h2>Registrar Formato de Inspección</h2>
+        <button type="button" class="btn-close" (click)="cerrarModalFormatoInspeccion()" aria-label="Close"></button>
+      </div>
+      <div class="modal-body">
+        <h4>Para la orden con Id: {{ cita.id }}</h4>
+        <h4>Para el formato con Id: {{ formatoInspeccion.id }}</h4>
+        <div *ngFor="let detalle of formatoInspeccion.detalles; let i = index" class="form-content mb-3">
+          <div class="form-content">
+            <label for="componentes">Componente:</label>
+            <select [(ngModel)]="detalleFormatoInspeccion.componentes" id="componentes-{{i}}" name="componentes" class="form-select">
+              <option disabled selected value="selecciona">--Componente--</option>
+              <option *ngFor="let componente of componentes" [ngValue]="componente">{{ componente.nombre }}</option>
+            </select>
+          </div>
+          <div class="form-content">
+            <label for="estadoConservacion">Estado:</label>
+            <select [(ngModel)]="detalleFormatoInspeccion.estadoConservacion" id="estadosConservacion-{{i}}" name="estadosConservacion" class="form-select">
+              <option disabled selected value="selecciona">--Estado--</option>
+              <option *ngFor="let estado of estadosConservacion" [ngValue]="estado">{{ estado.nombre }}</option>
+            </select>
+          </div>
+          <button class="btn btn-danger" (click)="removerDetalle(i)">Eliminar</button>
+        </div>
+        <button class="btn btn-secondary" (click)="agregarDetalle()">Agregar Componente</button>
+      </div>
+      <div class="modal-footer d-flex justify-content-center mt-3">
+        <button class="btn btn-secondary" (click)="cerrarModalFormatoInspeccion()">Cancelar</button>
+        <button class="btn btn-primary" (click)="guardarDetalleFormatoInspeccion(formatoInspeccion.id)">Guardar</button>
+      </div>
+    </div>
+  </div>
+</div>

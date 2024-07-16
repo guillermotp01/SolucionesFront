@@ -1,0 +1,134 @@
+<app-navegacion></app-navegacion>
+<main class="min-vh-100 p-3 bg-light">
+    <section class="container-lg mt-5">
+        <div class="row justify-content-center">
+            <div class="col-lg-8">
+                <div class="info-vehiculo card shadow-sm mb-4">
+                    <div class="p-4">
+                        <nav class="nav-perfil d-flex justify-content-between">
+                            <li>
+                                <a (click)="miPerfil()">
+                                    <i class="bi bi-person-fill"></i>
+                                    Mi Perfil
+                                </a>
+                            </li>
+                            <li>
+                                <a (click)="misCitas()">
+                                    <i class="bi bi-list-task"></i>
+                                    Mis Citas
+                                </a>
+                            </li>
+                            <li>
+                                <a (click)="misVehiculos()">
+                                    <i class="bi bi-car-front-fill"></i>
+                                    Mis Vehículos
+                                </a>
+                            </li>
+                        </nav>
+                    </div>
+                    <hr>
+                    <div class="card-body">
+                        <h2 class="card-title text-start">Mis vehículos</h2>
+
+                        <!-- Listado de vehículos -->
+                        <div class="row">
+                            <table class="table table-bordered text-center">
+                                <thead class="thead-light">
+                                    <tr>
+                                        <th scope="col">Nro. Vehiculo</th>
+                                        <th scope="col">Marca</th>
+                                        <th scope="col">Modelo</th>
+                                        <th scope="col">Placa</th>
+                                        <th scope="col">Editar</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    <tr *ngFor="let vehiculo of vehiculos" >
+                                        <td>{{ vehiculo.id }}</td>
+                                        <td>{{ vehiculo.modelo.marca.nombre }}</td>
+                                        <td>{{ vehiculo.modelo.nombre }}</td>
+                                        <td>{{ vehiculo.placa }}</td>
+                                        <td class="text-center">
+                                            <button class="btn mx-2" (click)="modalActualizar(vehiculo)">
+                                                <i class="bi bi-pencil-square"></i>
+                                            </button>
+                                        </td>
+                                    </tr>
+                                </tbody>
+                            </table>
+                        </div>
+                        <div class="text-end mt-4">
+                            <button class="btn btn-primary" (click)="crearVehiculo()">Agregar vehículo</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+</main>
+<app-footer></app-footer>
+
+<!-- MODAL PARA GUARDAR Y ACTUALIZAR -->
+<div class="modal" *ngIf="MostrarModalActualizarVehiculo">
+    <div class="modal-content text">
+        <div class="modal-header">
+            <h2 *ngIf="actualizarModal">Actualizar Vehiculo</h2>
+            <h2 *ngIf="!actualizarModal">Guardar Vehiculo</h2>
+        </div>
+        <div class="modal-body">
+            <div class="forms d-flex">
+                <div class="mx-5">
+                    <div class="form-content">
+                        <label for="placa">Placa:</label>
+                        <input [(ngModel)]="vehiculo.placa" id="placa" name="placa" class="form-control" />
+                    </div>
+
+                    <div class="form-content">
+                        <label for="categoria">Modelos:</label>
+                        <select [(ngModel)]="vehiculo.modelo" id="modelo" name="modelo" class="form-select">
+                            <option disabled selected value="selecciona">--Modelo--</option>
+                            <option *ngFor="let modelo of modelos" [ngValue]="modelo">{{ modelo.nombre }}</option>
+                        </select>
+                    </div>
+                    
+                </div>
+                <div class="mx-5">
+                    <div class="form-content">
+                        <label for="color">Color:</label>
+                        <input [(ngModel)]="vehiculo.color" id="color" name="color" class="form-control"/>
+                    </div>
+
+                    <div class="form-content">
+                        <label for="fecha">Año:</label>
+                        <input [(ngModel)]="vehiculo.fecha" id="fecha" name="fecha" class="form-control"/>
+                    </div>
+
+                    <div class="form-content">
+                        <label for="motor">Motor:</label>
+                        <input [(ngModel)]="vehiculo.motor" id="motor" name="motor" class="form-control"/>
+                    </div>
+                </div>
+            </div>
+            <div class="modal-footer d-flex justify-content-center mt-3">
+                <button class="btn btn-secondary" (click)="cancelar()">Cancelar</button>
+                <button *ngIf="!actualizarModal" class="btn btn-primary" (click)="guardar()">Guardar</button>
+                <button *ngIf="actualizarModal" class="btn btn-primary" (click)="actualizar()">Actualizar</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+<!-- MODAL PARA ELIMINAR -->
+<div class="modal" *ngIf="MostrarModalEliminarVehiculo">
+    <div class="modal-content text">
+        <div class="text-center">
+            <i class="bi bi-x-circle" style="font-size: 30px; color: red;"></i>
+            <h2>¿Deseas eliminar este Producto?</h2>
+        </div>
+        <div class="modal-footer d-flex justify-content-center">
+            <a class="btn btn-danger" (click)="eliminar()">Sí</a>
+            <a class="btn btn-primary" (click)="cancelar()">No</a>
+        </div>
+    </div>
+</div>

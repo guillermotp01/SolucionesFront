@@ -1,0 +1,20 @@
+<app-navegacion/>
+<main class="vh-100 d-flex justify-content-center align-items-center">
+    <div class="contenedor">
+        <div class="panel-izquierdo">
+            <h2>Inicio de Sesión</h2>
+            <p>Ingrese con su correo</p>
+            <form (ngSubmit)="formSubmit()">
+                <input required [(ngModel)]="loginData.username" type="text" class="form-control" name="username" placeholder="Nombre de Usuario">
+                <input required [(ngModel)]="loginData.password" class="form-control" type="password" name="password" placeholder="Contraseña">
+                <button type="submit">INGRESAR</button>
+            </form>
+        </div>
+        <div class="panel-derecho">
+            <h2>Hola, Usuario</h2>
+            <p>Regístrese con sus datos personales</p>
+            <button mat-stroked-button color="primary" (click)="formRegistro()">Registrate</button>
+        </div>
+    </div>
+</main>
+<app-footer/>
